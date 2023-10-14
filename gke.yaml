@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-devops-gke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gcp
+  template:
+    metadata:
+      labels:
+        app: gcp
+    spec:
+      containers:
+      - name: gcp-devops-gke
+        image: gcr.io/cellular-way-399223/gcpdevops:latest
+        ports:
+        - containerPort: 5000
+        env:
+          - name: PORT
+            value: "5000"
+        readinessProbe:
+          httpGet:
+            port: 5000
+          initialDelaySeconds: 5   # Adjust as needed
+          periodSeconds: 10        # Adjust as needed
+        livenessProbe:
+          httpGet:
+            port: 5000
+          initialDelaySeconds: 10  # Adjust as needed
+          periodSeconds: 15        # Adjust as needed
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcp-devops-gke-service
+  namespace: gcp-devops-prod
+  labels:
+    app.kubernetes.io/managed-by: gcp-cloud-build-deploy
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  selector:
+    app: gcp
+  type: LoadBalancer
