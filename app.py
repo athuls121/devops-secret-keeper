@@ -21,7 +21,7 @@ app = Flask(__name__)
 #redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 # Connect to the Redis server (Redis MemoryStore instance in GCP)
-redis_client = redis.StrictRedis(host='10.59.32.227', port=6379, db=0)
+redis_client = redis.StrictRedis(host='10.154.21.59', port=6379, db=0)
 
 # Define a Redis key for storing the data-to-code mapping
 REDIS_MAPPING_KEY = "data_to_code_mapping"
