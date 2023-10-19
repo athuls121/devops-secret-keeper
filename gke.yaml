@@ -27,13 +27,13 @@ spec:
         readinessProbe:
           httpGet:
             port: 8083
-          initialDelaySeconds: 5   # Adjust as needed
-          periodSeconds: 10        # Adjust as needed
+          initialDelaySeconds: 25   # Adjust as needed
+          periodSeconds: 25        # Adjust as needed
         livenessProbe:
           httpGet:
             port: 8083
-          initialDelaySeconds: 10  # Adjust as needed
-          periodSeconds: 15        # Adjust as needed
+          initialDelaySeconds: 25  # Adjust as needed
+          periodSeconds: 25        # Adjust as needed
 
 
 ---
