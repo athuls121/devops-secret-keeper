@@ -1,4 +1,3 @@
-import os
 from pywebio.input import input, select, textarea
 from pywebio.output import put_text, put_image, put_html, put_code, put_buttons, popup,put_progressbar,set_progressbar,toast,put_info
 from pywebio.input import textarea
@@ -13,15 +12,14 @@ from pywebio.session import run_js, set_env
 #import pyperclip
 
 
+
+
+
 app = Flask(__name__)
 
 
-# Access environment variables
-REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
-REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
-
-# Connect to the Redis server using environment variables
-redis_client = redis.StrictRedis(host=REDIS_HOST, port=int(REDIS_PORT), db=0)
+# Connect to the Redis server (Redis MemoryStore instance in GCP)
+redis_client = redis.StrictRedis(host='10.154.21.59', port=6379, db=0)
 
 # Define a Redis key for storing the data-to-code mapping
 REDIS_MAPPING_KEY = "data_to_code_mapping"
@@ -29,6 +27,9 @@ REDIS_MAPPING_KEY = "data_to_code_mapping"
 def save_mapping_to_redis(data_to_code):
     # Save the data-to-code mapping to Redis
     redis_client.hmset(REDIS_MAPPING_KEY, data_to_code)
+
+
+
 
 
 
