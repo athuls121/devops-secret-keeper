@@ -11,6 +11,7 @@ from pywebio.session import run_js, set_env
 app = Flask(__name__)
 
 
+
 # Connect to the Redis server
 redis_client = redis.StrictRedis(host='10.154.21.59', port=6379, db=0)
 
