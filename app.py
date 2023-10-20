@@ -38,7 +38,7 @@ def btn_click(btn_val):
             elif btn_val == "About":
                 popup("About",
                       [put_html('<h2>Created by InsightIQ</h2>'),
-                       put_text("Project is implemented using Python and Redis"),
+                       put_text("SECRET KEEPER Application is implemented using Python and Redis"),
                                        
                        
                        ]
