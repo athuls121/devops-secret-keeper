@@ -15,11 +15,11 @@ class TestSecretKeeper(unittest.TestCase):
         time.sleep(1)
 
     def start_pywebio_server(self):
-        start_server(home, port=8085)
+        start_server(home, port=8083)
 
     def test_application_up(self):
         # Test if the application is up by sending a GET request
-        response = requests.get('http://localhost:8085/')
+        response = requests.get('http://localhost:8083/')
         self.assertEqual(response.status_code, 200)  # Should return a 200 status code
 
 if __name__ == '__main__':
