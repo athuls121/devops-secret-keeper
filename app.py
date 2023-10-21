@@ -14,7 +14,6 @@ from pywebio.session import run_js, set_env
 
 
 
-
 app = Flask(__name__)
 
 # Access environment variables
