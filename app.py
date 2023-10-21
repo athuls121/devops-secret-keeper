@@ -1,4 +1,3 @@
-import os
 from pywebio.input import input, select, textarea
 from pywebio.output import put_text, put_image, put_html, put_code, put_buttons, popup,put_progressbar,set_progressbar,toast,put_info
 from pywebio.input import textarea
@@ -13,15 +12,14 @@ from pywebio.session import run_js, set_env
 #import pyperclip
 
 
-app = Flask(__name__)
 
+
+
+app = Flask(__name__)
 
 # Access environment variables
 REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
 REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
-
-# Connect to the Redis server using environment variables
-redis_client = redis.StrictRedis(host=REDIS_HOST, port=int(REDIS_PORT), db=0)
 
 # Define a Redis key for storing the data-to-code mapping
 REDIS_MAPPING_KEY = "data_to_code_mapping"
@@ -32,13 +30,16 @@ def save_mapping_to_redis(data_to_code):
 
 
 
+
+
+
 def btn_click(btn_val):
             if btn_val == 'Home':
                 run_js('window.location.reload()')
             elif btn_val == "About":
                 popup("About",
                       [put_html('<h2>Created by InsightIQ</h2>'),
-                       put_text("SECRET KEEPER Application is implemented using Python and Redis"),
+                       put_text("Project is implemented using Python and Redis"),
                                        
                        
                        ]
@@ -150,7 +151,7 @@ app.add_url_rule('/home', 'webio_view', webio_view(home), methods=['GET', 'POST'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", type=int, default=8083)
+    parser.add_argument("-p", "--port", type=int, default=8085)
     args = parser.parse_args()
 
     start_server(home, port=args.port, debug=True)
