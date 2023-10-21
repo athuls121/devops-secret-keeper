@@ -30,9 +30,6 @@ def save_mapping_to_redis(data_to_code):
 
 
 
-
-
-
 def btn_click(btn_val):
             if btn_val == 'Home':
                 run_js('window.location.reload()')
@@ -151,7 +148,7 @@ app.add_url_rule('/home', 'webio_view', webio_view(home), methods=['GET', 'POST'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", type=int, default=8085)
+    parser.add_argument("-p", "--port", type=int, default=8083)
     args = parser.parse_args()
 
     start_server(home, port=args.port, debug=True)
