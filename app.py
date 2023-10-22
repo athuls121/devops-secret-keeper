@@ -24,6 +24,9 @@ REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
 # Define a Redis key for storing the data-to-code mapping
 REDIS_MAPPING_KEY = "data_to_code_mapping"
 
+# Create a Redis client connection
+redis_client = redis.StrictRedis(host=REDIS_HOST, port=int(REDIS_PORT), decode_responses=True)
+
 def save_mapping_to_redis(data_to_code):
     # Save the data-to-code mapping to Redis
     redis_client.hmset(REDIS_MAPPING_KEY, data_to_code)
