@@ -26,14 +26,22 @@ spec:
           value: "6379"
         readinessProbe:
           httpGet:
+            path: /admin/health
+            scheme: HTTP
             port: 8083
-          initialDelaySeconds: 120   # Adjust as needed
-          periodSeconds: 10        # Adjust as needed
+          initialDelaySeconds: 150   # Adjust as needed
+          periodSeconds: 5        # Adjust as needed
+          timeoutSeconds: 5
+          failureThreshold: 10
         livenessProbe:
           httpGet:
+            path: /health/local
+            scheme: HTTP
             port: 8083
           initialDelaySeconds: 120  # Adjust as needed
-          periodSeconds: 15        # Adjust as needed
+          periodSeconds: 5        # Adjust as needed
+          timeoutSeconds: 5
+          failureThreshold: 10
 
 
 ---
