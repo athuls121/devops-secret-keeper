@@ -78,7 +78,7 @@ body {
     font-size: 20px;
 }
 
-.warning-message {
+warning-message {
     color: #f0ad4e;
     font-size: 20px;
 }
@@ -120,7 +120,7 @@ def insert_data():
     data_to_code = retrieve_mapping_from_redis()
     code = generate_code_and_store_data(data, data_to_code)
 
-    put_code(code, code_style="code")
+    put_code(code)
 
     put_success("Secret Created 🔒. Copy and share the secret code to retrieve your secret!")
     put_buttons(['Home', 'About', 'Copy'], onclick=btn_click, class_="actions")
@@ -148,7 +148,7 @@ def home():
     img = open('logo.png', 'rb').read()
     put_image(img, width='100px')
 
-    put_code("Secret Keeper is a Python based web application to create and share secrets✨", code_style="python")
+    put_code("Secret Keeper is a Python based web application to create and share secrets✨")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
