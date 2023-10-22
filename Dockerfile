@@ -3,6 +3,5 @@ WORKDIR /app
 COPY ./*  /app/
 RUN pip install -r requirements.txt
 EXPOSE 8083
-#ENTRYPOINT ["python3"]
-#CMD ["app.py"]
-CMD ["python", "app.py"]
+ENTRYPOINT ["python3"]
+CMD ["app.py"]
