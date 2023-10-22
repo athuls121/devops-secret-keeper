@@ -53,7 +53,8 @@ def btn_click(btn_val):
 def retrieve_mapping_from_redis():
     # Retrieve the data-to-code mapping from Redis
     data = redis_client.hgetall(REDIS_MAPPING_KEY)
-    return {code.decode('utf-8'): data.decode('utf-8') for code, data in data.items()}
+    return {code: data for code, data in data.items()}
+
 
 def generate_code_and_store_data(data, data_to_code):
     # Generate a random code and store the data-to-code mapping in Redis
