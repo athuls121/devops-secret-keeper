@@ -148,24 +148,7 @@ def home():
     img = open('logo.png', 'rb').read()
     put_image(img, width='100px')
 
-    put_code("Secret Keeper is a Python based web application to create and share secrets✨", 'python')
-
-    count_of_data = redis_client.hlen(REDIS_MAPPING_KEY)
-
-    put_text(f"Total Number of Secrets: {count_of_data}", class_="info")
-
-    option = select('Select an Option!', ['Create Secret', 'Retrieve Secret'])
-
-    if option == 'Create Secret':
-        put_html('<div class="secret-container">')
-        insert_data()
-        put_html('</div>')
-    elif option == 'Retrieve Secret':
-        retrieve_data()
-
-    put_html('</div>')
-
-app.add_url_rule('/home', 'webio_view', webio_view(home), methods=['GET', 'POST', 'OPTIONS'])
+    put_code("Secret Keeper is a Python based web application to create and share secrets✨", code_style="python")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
