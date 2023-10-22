@@ -1,15 +1,19 @@
+import os
 from pywebio.input import input, select, textarea
-from pywebio.output import put_text, put_image, put_html, put_code, put_buttons, popup, put_progressbar, set_progressbar, toast, put_success, put_error, put_warning, put_info
+from pywebio.output import put_text, put_image, put_html, put_code, put_buttons, popup,put_progressbar,set_progressbar,toast,put_info
 from pywebio.input import textarea
-from pywebio.output import put_success, put_warning, put_error
-import redis
+from pywebio.output import put_success,put_warning,put_error
+import redis,time
 import secrets
 from flask import Flask
 from pywebio.platform.flask import webio_view
 import argparse
 from pywebio import start_server
 from pywebio.session import run_js, set_env
-import os
+#import pyperclip
+
+
+
 
 app = Flask(__name__)
 
@@ -23,88 +27,34 @@ REDIS_MAPPING_KEY = "data_to_code_mapping"
 # Create a Redis client connection
 redis_client = redis.StrictRedis(host=REDIS_HOST, port=int(REDIS_PORT), decode_responses=True)
 
-# CSS styles for improved appearance
-custom_css = """
-<style>
-body {
-    background-color: #f5f5f5;
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.header {
-    text-align: center;
-    font-size: 36px;
-    margin-bottom: 20px;
-}
-
-.secret-container {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
-}
-
-.code {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.actions {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.error-message {
-    color: #d9534f;
-    font-size: 20px;
-}
-
-.success-message {
-    color: #5bc0de;
-    font-size: 20px;
-}
-
-warning-message {
-    color: #f0ad4e;
-    font-size: 20px;
-}
-</style>
-"""
-
 def save_mapping_to_redis(data_to_code):
     # Save the data-to-code mapping to Redis
     redis_client.hmset(REDIS_MAPPING_KEY, data_to_code)
 
+
+
 def btn_click(btn_val):
-    if btn_val == 'Home':
-        run_js('window.location.reload()')
-    elif btn_val == "About":
-        popup("About",
-              [put_html('<h2>Created by InsightIQ</h2>'),
-               put_text("Project is implemented using Python and Redis"),
-              ]
-             )
-    elif btn_val == 'Copy':
-        toast("Code copied to clipboard", color='warning', duration=3)
+            if btn_val == 'Home':
+                run_js('window.location.reload()')
+            elif btn_val == "About":
+                popup("About",
+                      [put_html('<h2>Created by InsightIQ</h2>'),
+                       put_text("Project is implemented using Python and Redis"),
+                                       
+                       
+                       ]
+
+                      )
+            elif btn_val== 'Copy':
+                 toast("Code copied to clipboard",  color='warning', duration=3)
+                 
+  
 
 def retrieve_mapping_from_redis():
     # Retrieve the data-to-code mapping from Redis
     data = redis_client.hgetall(REDIS_MAPPING_KEY)
-    return data
+    return {code: data for code, data in data.items()}
+
 
 def generate_code_and_store_data(data, data_to_code):
     # Generate a random code and store the data-to-code mapping in Redis
@@ -114,41 +64,90 @@ def generate_code_and_store_data(data, data_to_code):
     return code
 
 def insert_data():
-    # Input form to insert data and generate a code
+       # Input form to insert data and generate a code
     data = textarea("Enter your Secret", rows=5, placeholder="", required=True)
 
     data_to_code = retrieve_mapping_from_redis()
     code = generate_code_and_store_data(data, data_to_code)
+     # Adding Progress bar
+    import time
 
-    put_code(code)
+    put_progressbar('bar');
+    for i in range(1, 11):
+        set_progressbar('bar', i / 10)
+        time.sleep(0.05)
 
-    put_success("Secret Created 🔒. Copy and share the secret code to retrieve your secret!")
-    put_buttons(['Home', 'About', 'Copy'], onclick=btn_click, class_="actions")
-
+    put_text("")
+    put_text("")
+    put_text("")
+    put_text(f"")    
+    larger_text = f'<span style="font-size: 50px; color: black;">{code}</span>'
+    put_html(larger_text)   
+    copied_code=data 
+    put_success("Secret Created 🔒. Copy and share the secret code to retreive your secret!")    
+    put_buttons(['Home', 'About', 'Copy'], onclick=btn_click)
+    
 def retrieve_data():
     # Input form to retrieve data using a code
-    code = input("Enter the secret code to retrieve your data:", type='text', required=True)
+    code = input("Enter the secret code to retrieve your data:", type='text',required=True)
     data_to_code = retrieve_mapping_from_redis()
-    data = data_to_code.get(code)
+    data = data_to_code.get(code)   
+     # Adding Progress bar
+    import time
 
-    if data:
-        put_text(data, class_="code")
-        put_success("Secret retrieved Successfully 🔓", class_="success-message")
+    put_progressbar('bar');
+    for i in range(1, 11):
+        set_progressbar('bar', i / 10)
+        time.sleep(0.05)
+    
+    if data:          
+       
+        larger_text = f'<span style="font-size: 20px; color: black;">{data}</span>'
+        put_text(" ")
+        put_success("Secret retrieved Successfully 🔓")  
+        put_html(larger_text)               
+        put_text(" ")       
+        put_buttons(['Home', 'About','Copy'], onclick=btn_click)
+        
+
     else:
-        put_error("Invalid Code. Please verify the token 🔒", class_="error-message")
-
-    put_buttons(['Home', 'About', 'Copy'], onclick=btn_click, class_="actions")
+        put_text(" ")
+        larger_text = f'<span style="font-size: 20px; color: black;">No Secrets Found</span>'
+        put_html(larger_text)
+        put_text(" ")
+        put_error("Invalid Code. Please verify the token 🔒")
+        put_text(" ")
+        put_buttons(['Home', 'About','Copy'], onclick=btn_click)
 
 def home():
-    put_html(custom_css)
+    set_env(title="Secret Keeper")
+   
+    
 
-    put_html('<div class="container">')
-    put_html('<div class="header">SECRET KEEPER</div>')
+    larger_text= f'<span style="font-size: 60px; color: black; display: block; text-align: center; margin: 0 auto;">SECRET KEEPER</span>'
+    put_html(larger_text)
+
 
     img = open('logo.png', 'rb').read()
-    put_image(img, width='100px')
+    put_image(img, width='100px')  # size of image
 
-    put_code("Secret Keeper is a Python based web application to create and share secrets✨")
+    put_code("Secret Keeper is a Python based web application to create and share secrets✨", 'python')   
+
+    #view secret count
+    count_of_data = redis_client.hlen(REDIS_MAPPING_KEY)
+    put_text("Total Number of Secrets: ", count_of_data)
+ 
+
+
+    option = select('Select an Option!', ['Create Secret', 'Retrieve Secret'])
+    
+    if option == 'Create Secret':
+        insert_data()
+    elif option == 'Retrieve Secret':
+        retrieve_data()
+
+# To allow reloading of the web browser and specifying the port
+app.add_url_rule('/home', 'webio_view', webio_view(home), methods=['GET', 'POST', 'OPTIONS'])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -156,3 +155,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     start_server(home, port=args.port, debug=True)
+
