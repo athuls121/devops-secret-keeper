@@ -32,21 +32,8 @@ def save_mapping_to_redis(data_to_code):
     redis_client.hmset(REDIS_MAPPING_KEY, data_to_code)
 
 
-# Add a new function to copy text to clipboard using JavaScript
-def copy_to_clipboard(text_to_copy):
-    js_code = f'''
-        var textArea = document.createElement("textarea");
-        textArea.value = "{text_to_copy}";
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-    '''
-    run_js(js_code)
 
-
-#------------------------------------------BUTTON CLICK EVENT
-def btn_click(btn_val,code_to_copy):
+def btn_click(btn_val):
             if btn_val == 'Home':
                 run_js('window.location.reload()')
             elif btn_val == "About":
@@ -59,11 +46,9 @@ def btn_click(btn_val,code_to_copy):
 
                       )
             elif btn_val== 'Copy':
-                 copy_to_clipboard(code_to_copy)
                  toast("Code copied to clipboard",  color='warning', duration=3)
                  
   
-#--------------------------------------REDIS DATA MAPPING
 
 def retrieve_mapping_from_redis():
     # Retrieve the data-to-code mapping from Redis
@@ -77,8 +62,6 @@ def generate_code_and_store_data(data, data_to_code):
     data_to_code[code] = data
     save_mapping_to_redis(data_to_code)
     return code
-
-#-------------------------------INSERT SECRET
 
 def insert_data():
        # Input form to insert data and generate a code
@@ -102,14 +85,8 @@ def insert_data():
     put_html(larger_text)   
     copied_code=data 
     put_success("Secret Created 🔒. Copy and share the secret code to retreive your secret!")    
-    #put_buttons(['Home', 'About', 'Copy'], onclick=btn_click)
-    put_buttons(['Home', 'About','Copy'], onclick=lambda btn_val: btn_click(btn_val, code))
+    put_buttons(['Home', 'About', 'Copy'], onclick=btn_click)
     
-  
-
-
- #--------------------------------RETREIVE SECRET
-   
 def retrieve_data():
     # Input form to retrieve data using a code
     code = input("Enter the secret code to retrieve your data:", type='text',required=True)
@@ -129,10 +106,10 @@ def retrieve_data():
         put_text(" ")
         put_success("Secret retrieved Successfully 🔓")  
         put_html(larger_text)               
-        put_text(" ")  
+        put_text(" ")       
+        put_buttons(['Home', 'About','Copy'], onclick=btn_click)
         
-        put_buttons(['Home', 'About'], onclick=lambda btn_val: btn_click(btn_val, code))
-           
+
     else:
         put_text(" ")
         larger_text = f'<span style="font-size: 20px; color: black;">No Secrets Found</span>'
@@ -140,12 +117,8 @@ def retrieve_data():
         put_text(" ")
         put_error("Invalid Code. Please verify the token 🔒")
         put_text(" ")
-        put_buttons(['Home', 'About'], onclick=lambda btn_val: btn_click(btn_val, code))
-        
+        put_buttons(['Home', 'About','Copy'], onclick=btn_click)
 
-
-
-#---------------------------HOME PAGE
 def home():
     set_env(title="Secret Keeper")
    
@@ -182,3 +155,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     start_server(home, port=args.port, debug=True)
+
