@@ -51,7 +51,7 @@ def btn_click(btn_val,code_to_copy):
                 run_js('window.location.reload()')
             elif btn_val == "About":
                 popup("About",
-                      [put_html('<h2>Created by InsightIQ</h2>'),
+                      [put_html('<h2>Created by InsightIQ Version-2.0</h2>'),
                        put_text("Project is implemented using Python and Redis"),
                                        
                        
