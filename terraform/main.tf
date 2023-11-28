@@ -13,3 +13,4 @@ module "redis" {
   source     = "./redis"
   project_id = var.project_id
 }
+
