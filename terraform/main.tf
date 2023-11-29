@@ -4,24 +4,32 @@ provider "google" {
   region      = "us-central1"
 }
 
-# Redis DB
+# Check if Redis instance exists
+data "google_redis_instance" "existing_redis_instance" {
+  name = "redis"
+}
+
 resource "google_redis_instance" "example" {
+  count               = length(data.google_redis_instance.existing_redis_instance) > 0 ? 0 : 1
   name                = "redis"
   tier                = "BASIC"  
   memory_size_gb      = 1             
   authorized_network  = "projects/cellular-way-399223/global/networks/default"  
 }
 
-# GKE cluster
-resource "google_container_cluster" "primary" {
+# Check if GKE cluster exists
+data "google_container_cluster" "existing_gke_cluster" {
   name     = "gcp-devops-project-clust"
-  location = var.region       #Takes region value from variables.tf
-  deletion_protection = false  # Disable deletion protection
- 
-  network    = "default"
-  subnetwork = "default"
- 
-# Enabling Autopilot for this cluster
-  enable_autopilot = true
+  location = "us-central1"
 }
 
+resource "google_container_cluster" "primary" {
+  count               = length(data.google_container_cluster.existing_gke_cluster) > 0 ? 0 : 1
+  name                = "gcp-devops-project-clust"
+  location            = "us-central1"
+  deletion_protection = false
+  
+  network             = "default"
+  subnetwork          = "default"
+  enable_autopilot    = true
+}
