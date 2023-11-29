@@ -14,7 +14,12 @@ resource "google_redis_instance" "example" {
   name                = "redis"
   tier                = "BASIC"  
   memory_size_gb      = 1             
-  authorized_network  = "projects/cellular-way-399223/global/networks/default"  
+  authorized_network  = "projects/cellular-way-399223/global/networks/default"
+
+  # Ignore changes if the instance already exists
+  lifecycle {
+    ignore_changes = [name, tier, memory_size_gb, authorized_network]
+  }
 }
 
 # Check if GKE cluster exists
@@ -32,4 +37,9 @@ resource "google_container_cluster" "primary" {
   network             = "default"
   subnetwork          = "default"
   enable_autopilot    = true
+
+  # Ignore changes if the cluster already exists
+  lifecycle {
+    ignore_changes = [name, location, deletion_protection, network, subnetwork, enable_autopilot]
+  }
 }
