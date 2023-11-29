@@ -20,8 +20,12 @@ steps:
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
     args:
-      - "plan"
-      - "apply"
+      - "-c"
+      - |
+        terraform plan
+        terraform apply
+      #- "plan"
+      #- "apply"
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
