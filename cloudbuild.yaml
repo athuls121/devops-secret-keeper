@@ -13,13 +13,13 @@ steps:
   # Initialize, Plan and Apply Terraform
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
-    entrypoint: "bash"
     args:
       - "init"
       - "-upgrade"
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
+    entrypoint: "bash"
     args:
       #- "plan"
       - "-c"
