@@ -18,7 +18,9 @@ steps:
     args:
       - "-c"
       - |
-        cd terraform  
+        cd terraform
+        pwd
+        ls -l
 
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
