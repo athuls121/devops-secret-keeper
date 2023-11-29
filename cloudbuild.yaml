@@ -24,14 +24,14 @@ steps:
       #- "plan"
       - "-c"
       - |
-       terraform plan -detailed-exitcode || TF_EXITCODE=$?
-        if [[ $TF_EXITCODE -eq 0 || $TF_EXITCODE -eq 2 ]]; then
+        terraform plan -detailed-exitcode || TF_EXITCODE=$?
+        if [[ $? -eq 0 || $? -eq 2 ]]; then
           echo "Terraform plan successful or with changes"
-        elif [[ $TF_EXITCODE -eq 1 ]]; then
+        elif [[ $? -eq 1 ]]; then
           echo "Terraform plan failed"
-            # Handle failure if needed
+          # Handle failure if needed
           exit 1
-        elif [[ $TF_EXITCODE -eq 3 ]]; then
+        elif [[ $? -eq 3 ]]; then
           echo "No changes to apply, Terraform succeeded"
         else
           echo "Terraform exited with an unexpected code: $TF_EXITCODE"
