@@ -10,13 +10,10 @@ data "google_redis_instance" "existing_redis_instance" {
 }
 
 resource "google_redis_instance" "example" {
-  count = try(length(data.google_redis_instance.existing_redis_instance), 0)
-
-  # ... other configuration
-
-  lifecycle {
-    ignore_changes = [name, tier, memory_size_gb, authorized_network]
-  }
+  count           = try(length(data.google_redis_instance.existing_redis_instance), 0)
+  name            = "redis-instance-name"  # Provide a name
+  memory_size_gb  = 1                      # Provide memory size
+  # ... other required configuration
 }
 
 # Check if GKE cluster exists
@@ -26,11 +23,7 @@ data "google_container_cluster" "existing_gke_cluster" {
 }
 
 resource "google_container_cluster" "primary" {
-  count = try(length(data.google_container_cluster.existing_gke_cluster), 0)
-
-  # ... other configuration
-
-  lifecycle {
-    ignore_changes = [name, location, deletion_protection, network, subnetwork, enable_autopilot]
-  }
+  count     = try(length(data.google_container_cluster.existing_gke_cluster), 0)
+  name      = "gke-cluster-name"  # Provide a name
+  # ... other required configuration
 }
