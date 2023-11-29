@@ -10,7 +10,7 @@ steps:
         gcloud auth activate-service-account --key-file=terraform/credentials.json
         cd terraform
 
-  # Initialize Terraform
+  # Initialize, Plan and Apply Terraform
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
     args:
@@ -27,13 +27,6 @@ steps:
     args:
       - "apply"
       - "-auto-approve"
-
-
-#      - "-c"
-#      - |
-#        terraform init -upgrade
-#        terraform plan
-#        terraform apply -auto-approve
 
 
 
