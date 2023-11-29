@@ -12,13 +12,15 @@ steps:
 
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
-    entrypoint: "bash"
+#    entrypoint: "bash"
     args:
-      - "-c"
-      - |
-        terraform init -upgrade
-        terraform plan
-        terraform apply -auto-approve
+      - "init"
+
+#      - "-c"
+#      - |
+#        terraform init -upgrade
+#        terraform plan
+#        terraform apply -auto-approve
 
 
 
