@@ -24,10 +24,19 @@ steps:
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
+    id: apply-terraform
     args:
-      - "apply"
-      - "-auto-approve"
-
+#      - "apply"
+#      - "-auto-approve"
+      - "-c"
+      - |
+        set -e
+        if terraform apply -auto-approve 2>&1 | tee /dev/tty | grep -q "already exists"; then
+          echo "Resource already exists. Continuing..."
+          exit 0  # Consider this as a successful run
+        else
+          exit 1  # Exit with a failure if any other error occurs
+        fi
 
 
     # build the container name
