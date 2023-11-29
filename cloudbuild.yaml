@@ -19,24 +19,8 @@ steps:
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
-    entrypoint: "/bin/sh"
     args:
-      #- "plan"
-      - "-c"
-      - |
-        terraform plan -detailed-exitcode || TF_EXITCODE=$?
-        if [[ $? -eq 0 || $? -eq 2 ]]; then
-          echo "Terraform plan successful or with changes"
-        elif [[ $? -eq 1 ]]; then
-          echo "Terraform plan failed"
-          # Handle failure if needed
-          exit 1
-        elif [[ $? -eq 3 ]]; then
-          echo "No changes to apply, Terraform succeeded"
-        else
-          echo "Terraform exited with an unexpected code: $TF_EXITCODE"
-          exit 1
-        fi
+      - "plan"
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
@@ -73,5 +57,3 @@ steps:
       - "-c"
       - |
         python test_secret_keeper.py
-
-
