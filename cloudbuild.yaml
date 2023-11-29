@@ -21,7 +21,6 @@ steps:
     dir: "terraform"
     args:
       - "plan"
-      - "apply"
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
