@@ -25,6 +25,7 @@ steps:
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
     id: apply-terraform
+    entrypoint: "/bin/bash"
     args:
 #      - "apply"
 #      - "-auto-approve"
