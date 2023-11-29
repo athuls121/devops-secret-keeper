@@ -1,33 +1,42 @@
 steps:
-# List contents of the directory to verify Terraform files
+#  # Checkout your source code
+#  - name: "gcr.io/cloud-builders/git"
+#    args: ["clone", "https://github.com/athuls121/devops-secret-keeper.git", "."]
+
+  # Authenticate with Google Cloud
   - name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     args:
       - "-c"
       - |
-        gcloud config set project $PROJECT_ID
-        cd /home/athuls121/devops-secret-keeper
-        pwd
-        ls -la
+        ls -l
+        gcloud auth activate-service-account --key-file=/terraform/credentials.json
+
+  # Change directory to the Terraform directory
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        cd terraform  
 
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
     args:
       - "init"
-    dir: "/home/athuls121/devops-secret-keeper"  # Path to the Terraform directory in Cloud Shell
+      - "-upgrade"
 
   # Plan Terraform changes
   - name: "hashicorp/terraform:latest"
     args:
       - "plan"
-    dir: "/home/athuls121/devops-secret-keeper"  # Path to the Terraform directory in Cloud Shell
 
   # Apply Terraform changes
   - name: "hashicorp/terraform:latest"
     args:
       - "apply"
       - "-auto-approve"
-    dir: "/home/athuls121/devops-secret-keeper"  # Path to the Terraform directory in Cloud Shell
+
 
 
     # build the container name
