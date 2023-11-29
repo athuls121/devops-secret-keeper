@@ -1,4 +1,13 @@
 steps:
+# List contents of the directory to verify Terraform files
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        cd /home/athuls121/devops-secret-keeper
+        ls -la
+
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
     args:
