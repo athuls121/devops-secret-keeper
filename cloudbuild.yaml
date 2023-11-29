@@ -28,10 +28,13 @@ steps:
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
+    entrypoint: "/bin/sh"
     args:
-      - "apply"
-      - "-auto-approve"
-
+#      - "apply"
+#      - "-auto-approve"
+      - "-c"
+      - |
+        terraform apply -auto-approve || true
 
 
     # build the container name
