@@ -1,8 +1,4 @@
 steps:
-#  # Checkout your source code
-#  - name: "gcr.io/cloud-builders/git"
-#    args: ["clone", "https://github.com/athuls121/devops-secret-keeper.git", "."]
-
   # Authenticate with Google Cloud
   - name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
@@ -24,20 +20,15 @@ steps:
 
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
+    entrypoint: "bash"
     args:
-      - "init"
-      - "-upgrade"
-
-  # Plan Terraform changes
-  - name: "hashicorp/terraform:latest"
-    args:
-      - "plan"
-
-  # Apply Terraform changes
-  - name: "hashicorp/terraform:latest"
-    args:
-      - "apply"
-      - "-auto-approve"
+      - "-c"
+      - |
+        cd terraform
+        terraform init
+        terraform init -upgrade
+        terraform plan
+        terraform apply -auto-approve
 
 
 
