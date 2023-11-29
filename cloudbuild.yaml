@@ -47,3 +47,15 @@ steps:
     - --location=us-central1
     - --cluster=gcp-devops-project-clust
     - --namespace=gcp-devops-prod
+
+
+
+    # Execute the Python test file
+  - name: "python:3.9"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        python test_secret_keeper.py
+
+

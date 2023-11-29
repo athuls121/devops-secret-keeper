@@ -25,8 +25,3 @@ resource "google_container_cluster" "primary" {
   enable_autopilot = true
 }
 
-#resource "kubernetes_namespace" "example" {
-#  metadata {
-#    name = "gcp-devops-prod"
-#  }
-#}
