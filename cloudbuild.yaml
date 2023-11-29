@@ -16,4 +16,3 @@ steps:
     - --location=us-central1
     - --cluster=gcp-devops-project-clust
     - --namespace=gcp-devops-prod
-  
