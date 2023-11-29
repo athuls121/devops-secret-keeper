@@ -5,6 +5,7 @@ steps:
     args:
       - "-c"
       - |
+        gcloud config set project $PROJECT_ID
         cd /home/athuls121/devops-secret-keeper
         ls -la
 
