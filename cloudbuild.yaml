@@ -17,10 +17,10 @@ steps:
       - "init"
       - "-upgrade"
 
-  - name: "hashicorp/terraform:latest"
-    dir: "terraform"
-    args:
-      - "plan"
+#  - name: "hashicorp/terraform:latest"
+#    dir: "terraform"
+#    args:
+#      - "plan"
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
