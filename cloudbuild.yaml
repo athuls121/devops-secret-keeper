@@ -12,18 +12,18 @@ steps:
 
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
+    dir: "terraform"
     args:
-      - "-c"
-      - |
-        ls -l
       - "init"
       - "-upgrade"
 
   - name: "hashicorp/terraform:latest"
+    dir: "terraform"
     args:
       - "plan"
 
   - name: "hashicorp/terraform:latest"
+    dir: "terraform"
     args:
       - "apply"
       - "-auto-approve"
