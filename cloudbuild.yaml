@@ -22,8 +22,8 @@ steps:
     args:
       - "-c"
       - |
-        plan
-        apply
+        terraform plan
+        terraform apply
       #- "plan"
       #- "apply"
 
