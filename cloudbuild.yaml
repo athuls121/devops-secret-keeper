@@ -1,5 +1,6 @@
 steps:
   # Authenticate with Google Cloud
+  # Change directory to the Terraform directory
   - name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     args:
@@ -7,16 +8,7 @@ steps:
       - |
         ls -l
         gcloud auth activate-service-account --key-file=terraform/credentials.json
-
-  # Change directory to the Terraform directory
-  - name: "gcr.io/cloud-builders/gcloud"
-    entrypoint: "bash"
-    args:
-      - "-c"
-      - |
         cd terraform
-        pwd
-        ls -l
 
   # Initialize Terraform
   - name: "hashicorp/terraform:latest"
@@ -24,8 +16,6 @@ steps:
     args:
       - "-c"
       - |
-        cd terraform
-        terraform init
         terraform init -upgrade
         terraform plan
         terraform apply -auto-approve
