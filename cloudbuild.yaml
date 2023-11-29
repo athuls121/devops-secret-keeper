@@ -10,7 +10,7 @@ steps:
       - "-c"
       - |
         ls -l
-        gcloud auth activate-service-account --key-file=/terraform/credentials.json
+        gcloud auth activate-service-account --key-file=terraform/credentials.json
 
   # Change directory to the Terraform directory
   - name: "gcr.io/cloud-builders/gcloud"
