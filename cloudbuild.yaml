@@ -19,7 +19,7 @@ steps:
 
   - name: "hashicorp/terraform:latest"
     dir: "terraform"
-    entrypoint: "bash"
+    entrypoint: "/bin/bash"
     args:
       #- "plan"
       - "-c"
