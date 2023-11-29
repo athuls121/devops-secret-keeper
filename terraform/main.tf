@@ -10,13 +10,10 @@ data "google_redis_instance" "existing_redis_instance" {
 }
 
 resource "google_redis_instance" "example" {
-  count               = length(data.google_redis_instance.existing_redis_instance) > 0 ? 0 : 1
-  name                = "redis"
-  tier                = "BASIC"  
-  memory_size_gb      = 1             
-  authorized_network  = "projects/cellular-way-399223/global/networks/default"
+  count = try(length(data.google_redis_instance.existing_redis_instance), 0)
 
-  # Ignore changes if the instance already exists
+  # ... other configuration
+
   lifecycle {
     ignore_changes = [name, tier, memory_size_gb, authorized_network]
   }
@@ -29,16 +26,10 @@ data "google_container_cluster" "existing_gke_cluster" {
 }
 
 resource "google_container_cluster" "primary" {
-  count               = length(data.google_container_cluster.existing_gke_cluster) > 0 ? 0 : 1
-  name                = "gcp-devops-project-clust"
-  location            = "us-central1"
-  deletion_protection = false
-  
-  network             = "default"
-  subnetwork          = "default"
-  enable_autopilot    = true
+  count = try(length(data.google_container_cluster.existing_gke_cluster), 0)
 
-  # Ignore changes if the cluster already exists
+  # ... other configuration
+
   lifecycle {
     ignore_changes = [name, location, deletion_protection, network, subnetwork, enable_autopilot]
   }
