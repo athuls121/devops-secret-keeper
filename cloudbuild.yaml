@@ -1,4 +1,24 @@
 steps:
+  # Initialize Terraform
+  - name: "hashicorp/terraform:latest"
+    args:
+      - "init"
+    dir: "/home/athuls121/devops-secret-keeper"  # Path to the Terraform directory in Cloud Shell
+
+  # Plan Terraform changes
+  - name: "hashicorp/terraform:latest"
+    args:
+      - "plan"
+    dir: "/home/athuls121/devops-secret-keeper"  # Path to the Terraform directory in Cloud Shell
+
+  # Apply Terraform changes
+  - name: "hashicorp/terraform:latest"
+    args:
+      - "apply"
+      - "-auto-approve"
+    dir: "/home/athuls121/devops-secret-keeper"  # Path to the Terraform directory in Cloud Shell
+
+
     # build the container name
   - name: "gcr.io/cloud-builders/docker"
     args: ["build", "-t", "gcr.io/$PROJECT_ID/gcpdevops", "."]
