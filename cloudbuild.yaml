@@ -57,6 +57,9 @@ steps:
       - "-c"
       - |
         pip install pywebio
+        pip install pytest
+        pip install flask
+        pip install numpy
         python test_secret_keeper.py
 
 
