@@ -1,23 +1,12 @@
 import unittest
 from pywebio import start_server
 import requests
-import threading
-import subprocess
-
-def get_external_ip(load_balancer_name):
-    cmd = f"gcloud compute forwarding-rules describe {load_balancer_name} --global --format='value(IPAddress)'"
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    if result.returncode == 0:
-        return result.stdout.strip()
-    else:
-        print("Error fetching the external IP:", result.stderr)
-        return None
+import os  # Import os module to access environment variables
 
 class TestSecretKeeper(unittest.TestCase):
     def setUp(self):
-        # Fetch the external IP of the load balancer
-        self.load_balancer_name = "gcp-devops-gke"
-        self.external_ip = get_external_ip(self.load_balancer_name)
+        # Fetch the external IP from the environment variable
+        self.external_ip = os.getenv('EXTERNAL_LOAD_BALANCER_IP')
         if self.external_ip:
             print("External Load Balancer IP:", self.external_ip)
             # Start the PyWebIO server in a separate thread for testing

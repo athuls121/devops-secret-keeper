@@ -56,12 +56,10 @@ steps:
     args:
       - "-c"
       - |
-        pip install pywebio
-        pip install pytest
-        pip install flask
-        pip install numpy
-        pip install requests
-        python test_secret_keeper.py
+        export EXTERNAL_LOAD_BALANCER_IP=$(gcloud compute forwarding-rules describe gcp-devops-gke --global --format='value(IPAddress)')
+        
+        pip install pywebio pytest flask numpy requests os
+        EXTERNAL_LOAD_BALANCER_IP=$EXTERNAL_LOAD_BALANCER_IP python test_secret_keeper.py
 
 
 #  # Destroy Terraform
