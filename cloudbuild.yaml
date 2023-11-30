@@ -56,10 +56,26 @@ steps:
     args:
       - "-c"
       - |
-        export EXTERNAL_LOAD_BALANCER_IP=$(gcloud compute forwarding-rules describe gcp-devops-gke --global --format='value(IPAddress)')
-        
+        EXTERNAL_IP=$(gcloud compute instances describe gcp-devops-gke-service --zone=ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+        echo "EXTERNAL_IP=${EXTERNAL_IP}" >> ${_DEFAULT_OUTPUT_FILE}
+    substitutions:
+      _DEFAULT_OUTPUT_FILE: "substitutions_file.yaml"
+      INSTANCE_NAME: "YOUR_INSTANCE_NAME"
+      ZONE: "YOUR_INSTANCE_ZONE"
+
+
+  # Run the Python test file
+  - name: 'python:3.9'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        export EXTERNAL_LOAD_BALANCER_IP=$(gcloud compute instances describe gcp-devops-gke-service --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+
         pip install pywebio pytest flask numpy requests os
-        EXTERNAL_LOAD_BALANCER_IP=$EXTERNAL_LOAD_BALANCER_IP python test_secret_keeper.py
+        python test_secret_keeper.py
+    substitutions:
+      _EXTERNAL_LOAD_BALANCER_IP: "EXTERNAL_LOAD_BALANCER_IP"
 
 
 #  # Destroy Terraform
