@@ -21,7 +21,7 @@ spec:
         - name: PORT
           value: "8083"
         - name: REDIS_HOST
-          value: "10.157.240.27"  # Replace with your Redis host
+          value: "10.47.100.91"  # Replace with your Redis host
         - name: REDIS_PORT
           value: "6379"
         readinessProbe:
