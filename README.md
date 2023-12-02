@@ -4,3 +4,7 @@
 2. Create a Namespce for the cluster --> gcp-devops-prod
 3. Create a redis in Memorystore in GCP --> redis
 
+
+
+        - name: REDIS_HOST
+          value: "10.47.100.91"
