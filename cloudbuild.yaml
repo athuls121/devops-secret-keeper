@@ -1,12 +1,12 @@
 steps:
 
-
     # Execute the Python test file
   - name: "python:3.9"
     entrypoint: "bash"
     args:
       - "-c"
       - |
+         pip install -r requirements.txt
          python test_secret_keeper.py
 
     # build the container name
