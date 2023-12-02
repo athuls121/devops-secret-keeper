@@ -6,6 +6,8 @@ steps:
     args:
       - "-c"
       - |
+         python3 -m venv myenv  # Create a virtual environment
+         source myenv/bin/activate  # Activate the virtual environment
          pip install --upgrade pip
          pip install -r requirements.txt
          python test_secret_keeper.py
