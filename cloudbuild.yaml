@@ -1,34 +1,13 @@
 steps:
-  # Authenticate with Google Cloud
-  # Change directory to the Terraform directory
-  - name: "gcr.io/cloud-builders/gcloud"
+
+
+    # Execute the Python test file
+  - name: "python:3.9"
     entrypoint: "bash"
     args:
       - "-c"
       - |
-        ls -l
-        gcloud auth activate-service-account --key-file=terraform/credentials.json
-        cd terraform
-
-#  # Initialize, Plan and Apply Terraform
-#  - name: "hashicorp/terraform:latest"
-#    dir: "terraform"
-#    args:
-#      - "init"
-#      - "-upgrade"
-#
-#  - name: "hashicorp/terraform:latest"
-#    dir: "terraform"
-#    args:
-#      - "plan"
-#
-#  - name: "hashicorp/terraform:latest"
-#    dir: "terraform"
-#    args:
-#      - "apply"
-#      - "-auto-approve"
-
-
+         python test_secret_keeper.py
 
     # build the container name
   - name: "gcr.io/cloud-builders/docker"
@@ -47,36 +26,4 @@ steps:
     - --location=us-central1
     - --cluster=gcp-devops-project-clust
     - --namespace=gcp-devops-prod
-
-
-
-    # Execute the Python test file
-  - name: "python:3.9"
-    entrypoint: "bash"
-    args:
-      - "-c"
-      - |
-        EXTERNAL_IP=$(gcloud compute instances describe gcp-devops-gke-service --zone=$_INSTANCE_ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
-        echo "EXTERNAL_LOAD_BALANCER_IP=${EXTERNAL_IP}" >> cloudbuild.env
-
-
-  # Run the Python test file
-  - name: 'python:3.9'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        source cloudbuild.env
-
-        pip install pywebio pytest flask numpy requests os
-        python test_secret_keeper.py
-    env: ["EXTERNAL_LOAD_BALANCER_IP=${_EXTERNAL_LOAD_BALANCER_IP}"]
-
-
-#  # Destroy Terraform
-#  - name: "hashicorp/terraform:latest"
-#    dir: "terraform"
-#    args:
-#      - "destroy"
-#      - "-auto-approve"
 

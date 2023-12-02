@@ -20,8 +20,16 @@ spec:
         env:
         - name: PORT
           value: "8083"
-        - name: REDIS_HOST
-          value: "10.47.100.91"  # Replace with your Redis host
+
+        - name: REDIS_HOST  # Declaring config-map for Redis IP
+          valueFrom:
+            configMapKeyRef:
+              name: my-configmap
+              key: redis_ip
+
+#        - name: REDIS_HOST
+#          value: "10.47.100.91"
+
         - name: REDIS_PORT
           value: "6379"
         readinessProbe:
@@ -34,6 +42,7 @@ spec:
             port: 8083
           initialDelaySeconds: 10  # Adjust as needed
           periodSeconds: 15        # Adjust as needed
+
 
 
 ---
