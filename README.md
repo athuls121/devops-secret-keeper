@@ -5,6 +5,3 @@
 3. Create a redis in Memorystore in GCP --> redis
 
 
-
-        - name: REDIS_HOST
-          value: "10.47.100.91"
